@@ -24,6 +24,10 @@
     </div>
 
     <style>
+        body {
+            overflow: hidden;
+        }
+
         .container {
             text-align: center;
             font-family: Arial, sans-serif;
@@ -87,8 +91,35 @@
         .bounce {
             animation: bounce 2s infinite;
         }
+
+        .rotate {
+            animation: spin 2s linear infinite; /* Add spin animation */
+        }
+
+        .peanut-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+        }
+        .peanut {
+            position: absolute;
+            font-size: 2.5rem;
+            animation: fall 2.5s linear forwards;
+            user-select: none;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 
+    <div class="peanut-rain"></div>
+    
     <script>
         const phrases = [
             "DEEZ NUTS! 🥜 GOTTEM!",
@@ -97,17 +128,39 @@
             "BOOM! DEEZ NUTS STRIKES AGAIN! 💥",
             "DEEZ NUTS NEVER GETS OLD! 🔥"
         ];
+
+        function peanutRain() {
+            const rainContainer = document.querySelector('.peanut-rain');
+            for (let i = 0; i < 25; i++) {
+                const peanut = document.createElement('span');
+                peanut.className = 'peanut';
+                peanut.textContent = '🥜';
+                peanut.style.left = Math.random() * 100 + 'vw';
+                peanut.style.top = -70 + 'px';
+                peanut.style.fontSize = (Math.random() * 2 + 1.5) + 'rem';
+                peanut.style.animationDelay = (Math.random() * 1.5) + 's';
+                rainContainer.appendChild(peanut);
+                setTimeout(() => peanut.remove(), 6000);
+            }
+        }
         
         function showDeezNuts() {
             const result = document.getElementById('result');
-            const nutImage = document.getElementById('nutImage');
             const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
             
             result.innerHTML = randomPhrase;
             result.style.color = '#ff4757';
             result.className = 'bounce';
             
-            nutImage.style.display = 'block';
+            
+            const emoji = document.createElement('span');
+            emoji.textContent = '🥜';
+            emoji.style.fontSize = '150px';
+            emoji.style.display = 'block';
+            emoji.className = 'rotate';
+            document.querySelector('.image-container').appendChild(emoji);
+            
+            peanutRain();
             
             setTimeout(() => {
                 result.className = '';
