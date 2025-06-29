@@ -153,14 +153,16 @@
             result.style.color = '#ff4757';
             result.className = 'bounce';
             
-            
-            const emoji = document.createElement('span');
-            emoji.textContent = '🥜';
-            emoji.style.fontSize = '150px';
-            emoji.style.display = 'block';
-            emoji.className = 'rotate';
-            document.querySelector('.image-container').appendChild(emoji);
-            
+            if (!document.getElementById('emoji')) {
+                const emoji = document.createElement('span');
+                emoji.textContent = '🥜';
+                emoji.id = 'emoji';
+                emoji.style.fontSize = '150px';
+                emoji.style.display = 'block';
+                emoji.className = 'rotate';
+                document.querySelector('.image-container').appendChild(emoji);
+            }
+
             peanutRain();
             
             setTimeout(() => {
